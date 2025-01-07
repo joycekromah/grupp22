@@ -1,0 +1,42 @@
+.slider-container {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    margin: 40px auto;
+    display: none;
+}
+.slider-bar {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 100%;
+    height: 20px;
+    background: linear-gradient(to right, red, yellow, green);
+    border-radius: 10px;
+    outline: none;
+    pointer-events: none;
+}
+.slider-bar::-webkit-slider-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 0;
+    height: 0;
+}
+.slider-pointer {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 24px;
+    height: 24px;
+    background-color: #ffffff;
+    border: 2px solid black;
+    border-radius: 50%;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    pointer-events: none;
+}
+
+.navbar-brand {
+    margin: auto;
+    font-size: 3.5rem;
+    font-weight: normal;
+    font-family: "American Typewriter", sans-serif;
+}
