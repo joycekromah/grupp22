@@ -25,7 +25,6 @@ async function fetchContentFromUrl(url) {
     }
 }
 
-// Fetch content from a JSON file
 async function fetchContentFromJson(filePath) {
     try {
         console.log(`Reading content from JSON file: ${filePath}`);
@@ -38,7 +37,6 @@ async function fetchContentFromJson(filePath) {
     }
 }
 
-// Summarize content
 async function summarizeContent(content) {
     try {
         console.log("Summarizing content...");
@@ -62,7 +60,6 @@ async function summarizeContent(content) {
     }
 }
 
-// Analyze sentiment of content
 async function analyzeSentiment(content) {
     try {
         console.log("Analyzing sentiment...");
@@ -85,7 +82,6 @@ async function analyzeSentiment(content) {
     }
 }
 
-// Process input from URL, JSON, or Text
 async function processInput(input, type) {
     let content;
 
@@ -120,7 +116,6 @@ async function processInput(input, type) {
     }
 }
 
-// Main function to process all sources and compile results
 async function processAllSources(inputs) {
     const results = [];
 
@@ -137,7 +132,6 @@ async function processAllSources(inputs) {
         console.log(`Sentiment Score: ${result.sentimentScore}`);
     });
 
-    // Compile all sentiment scores into an average
     const scores = results.map((result) => parseFloat(result.sentimentScore));
     const averageScore = scores.reduce((sum, score) => sum + score, 0) / scores.length;
     console.log(`\nAverage Sentiment Score: ${averageScore.toFixed(2)}`);
