@@ -5,7 +5,7 @@ import OpenAI from "openai";
 import fs from "fs/promises";
 
 const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY, // Hämtas från .env
+    apiKey: process.env.OPENAI_API_KEY,
 });
 
 async function fetchContentFromUrl(url) {
