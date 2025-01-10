@@ -3,10 +3,13 @@
 Steg 1. Kopiera detta och klistra in i terminalen: 
 pip install python-dotenv
 pip install requests
-install NodeJS
 npm install puppeteer
 npm install openai
 npx puppeteer browsers install chrome
 
+
 Steg 2: 
 skapa en .env fil och lägg in nycklar blabla
+
+Också:
+installera NodeJS via deras hemsida
