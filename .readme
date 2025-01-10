@@ -1,0 +1,7 @@
+#gör denna snyggare sen
+
+pip install python-dotenv
+pip install requests
+install NodeJS
+skapa en .env fil och lägg in nycklar blabla
+
