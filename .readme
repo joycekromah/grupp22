@@ -4,4 +4,5 @@ pip install python-dotenv
 pip install requests
 install NodeJS
 skapa en .env fil och lägg in nycklar blabla
-
+npm install puppeteer
+npm install openai
