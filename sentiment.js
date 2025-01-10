@@ -139,13 +139,7 @@ async function processAllSources(inputs) {
 
 (async () => {
     const inputs = [
-        { input: "https://www.wired.com/review/volvo-ex-90/", type: "url" },
-        { input: "https://www.digitaltrends.com/cars/volvo-ex90-vs-rivian-r1s-can-volvo-take-out-the-king-of-electric-suvs/", type: "url" },
-        { input: "https://practicapp.com/carbagepilot-part1/", type: "url" },
-        { input: "https://www.digitaltrends.com/cars/volvo-ex90-vs-tesla-model-y-is-teslas-cheaper-ev-also-better/", type: "url" },
-        { input: "http://www.muyinteresante.com/actualidad/el-suv-hibrido-insignia-de-volvo-mejor-que-nunca.html", type: "url" },
-        { input: "data.json", type: "json" },
-        { input: "", type: "text" },
+        { input: "youtube_comments.json", type: "json" }
     ];
 
     await processAllSources(inputs);
