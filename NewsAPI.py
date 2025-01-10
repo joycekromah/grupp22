@@ -1,6 +1,7 @@
 
 import requests
 from dotenv import load_dotenv
+import json
 import os
 
 # Load environment variables from the .env file
@@ -10,7 +11,7 @@ def main():
     searchWord = input("Ange sökord: ")
     posts = get_articles(searchWord)
     if posts:
-        format_output(posts)
+        save_urls_as_json(posts)
 
 
 def get_articles(searchWord):
@@ -32,11 +33,15 @@ def get_articles(searchWord):
         return None
 
 
-def format_output(posts):
+def save_urls_as_json(posts):
     articles = posts.get('articles', [])
-    for article in articles:
-        url = article.get('url', 'No content available')
-        print(url)
+    urls = [{"title": article.get('title', 'No title available'), "url": article.get('url', 'No URL available')} for article in articles]
+
+    # Save URLs as JSON
+    with open('articles.json', 'w', encoding='utf-8') as json_file:
+        json.dump(urls, json_file, indent=2, ensure_ascii=False)
+
+    print("URLs have been saved to 'articles.json'.")
 
 
 if __name__ == '__main__':

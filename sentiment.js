@@ -8,54 +8,19 @@ const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
 });
 
-async function fetchContentFromUrl(url) {
-    try {
-        console.log(`Fetching content from: ${url}`);
-        const browser = await puppeteer.launch({ headless: true });
-        const page = await browser.newPage();
-        await page.goto(url, { waitUntil: "domcontentloaded" });
-        const content = await page.evaluate(() => document.body.innerText);
-        await browser.close();
-
-        console.log("Fetched content (first 500 characters):", content.slice(0, 500));
-        return content;
-    } catch (error) {
-        console.error("Error fetching URL:", error.message);
-        return null;
-    }
-}
-
 async function fetchContentFromJson(filePath) {
     try {
         console.log(`Reading content from JSON file: ${filePath}`);
         const data = await fs.readFile(filePath, "utf8");
         const json = JSON.parse(data);
-        return json.text || json.texts.join(" "); // Combine texts if it's an array
+
+        // Extract relevant content for analysis
+        return json.map(item => ({
+            title: item.title || "",
+            comments: item.comments || [],
+        }));
     } catch (error) {
         console.error("Error reading JSON file:", error.message);
-        return null;
-    }
-}
-
-async function summarizeContent(content) {
-    try {
-        console.log("Summarizing content...");
-        const response = await openai.chat.completions.create({
-            model: "gpt-3.5-turbo",
-            messages: [
-                { role: "system", content: "You are a summarization assistant." },
-                {
-                    role: "user",
-                    content: `Summarize the following content in a concise paragraph:\n\n${content}`,
-                },
-            ],
-            max_tokens: 500,
-        });
-        const summary = response.choices[0].message.content.trim();
-        console.log("Summary:", summary);
-        return summary;
-    } catch (error) {
-        console.error("Error summarizing content:", error.message);
         return null;
     }
 }
@@ -74,10 +39,17 @@ async function analyzeSentiment(content) {
             ],
         });
         const sentimentScore = response.choices[0].message.content.trim();
-        console.log("Sentiment Score:", sentimentScore);
-        return sentimentScore;
+        const numericScore = parseFloat(sentimentScore);
+
+        if (isNaN(numericScore)) {
+            console.error(`Invalid sentiment score returned: "${sentimentScore}". Skipping this entry.`);
+            return null;
+        }
+        console.log("Sentiment Score:", numericScore);
+        return numericScore;
     } catch (error) {
         console.error("Error analyzing sentiment:", error.message);
+        console.error("Skipping this entry due to error.");
         return null;
     }
 }
@@ -89,11 +61,9 @@ async function processInput(input, type) {
         content = await fetchContentFromUrl(input);
     } else if (type === "json") {
         content = await fetchContentFromJson(input);
-    } else if (type === "text") {
-        content = input;
     } else {
-        console.error("Invalid input type. Use 'url', 'json', or 'text'.");
-        return;
+        console.error("Invalid input type. Use 'url' or 'json'.");
+        return null;
     }
 
     if (!content) {
@@ -101,45 +71,60 @@ async function processInput(input, type) {
         return null;
     }
 
-    const summary = await summarizeContent(content);
-    if (!summary) {
-        console.error("Failed to summarize content.");
-        return null;
+    let allSentiments = [];
+
+    if (type === "json") {
+        for (const item of content) {
+            const { title, comments } = item;
+
+            // Analyze title
+            const titleSentiment = await analyzeSentiment(title);
+            if (titleSentiment !== null) allSentiments.push(titleSentiment);
+
+            // Analyze comments
+            for (const comment of comments) {
+                const commentSentiment = await analyzeSentiment(comment);
+                if (commentSentiment !== null) allSentiments.push(commentSentiment);
+            }
+        }
+    } else {
+        // For URL content
+        const summary = await summarizeContent(content);
+        const sentimentScore = await analyzeSentiment(summary);
+        if (sentimentScore !== null) allSentiments.push(sentimentScore);
     }
 
-    const sentimentScore = await analyzeSentiment(summary);
-    if (sentimentScore !== null) {
-        return { type, summary, sentimentScore };
-    } else {
-        console.error("Failed to analyze sentiment.");
-        return null;
-    }
+    return allSentiments;
 }
 
 async function processAllSources(inputs) {
-    const results = [];
+    let allSentiments = [];
 
     for (const { input, type } of inputs) {
         console.log(`Processing input from ${type}...`);
-        const result = await processInput(input, type);
-        if (result) results.push(result);
+        const sentiments = await processInput(input, type);
+        if (sentiments) allSentiments = allSentiments.concat(sentiments);
     }
 
-    console.log("\n--- Results ---");
-    results.forEach((result, index) => {
-        console.log(`Source ${index + 1} (${result.type}):`);
-        console.log(`Summary: ${result.summary}`);
-        console.log(`Sentiment Score: ${result.sentimentScore}`);
-    });
+    // Calculate average sentiment
+    const totalSentiments = allSentiments.length;
+    const averageSentiment =
+        totalSentiments > 0
+            ? allSentiments.reduce((sum, score) => sum + score, 0) / totalSentiments
+            : 0;
 
-    const scores = results.map((result) => parseFloat(result.sentimentScore));
-    const averageScore = scores.reduce((sum, score) => sum + score, 0) / scores.length;
-    console.log(`\nAverage Sentiment Score: ${averageScore.toFixed(2)}`);
+    const result = { averageSentiment: parseFloat(averageSentiment.toFixed(2)) };
+
+    // Save result to a JSON file
+    const outputFilePath = "average_sentiment_result.json";
+    await fs.writeFile(outputFilePath, JSON.stringify(result, null, 2), "utf8");
+    console.log(`\nAverage Sentiment Score has been saved to ${outputFilePath}`);
 }
 
 (async () => {
     const inputs = [
-        { input: "youtube_comments.json", type: "json" }
+        { input: "youtube_comments.json", type: "json" },
+        { input: "articles.json", type: "json" },
     ];
 
     await processAllSources(inputs);

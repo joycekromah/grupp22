@@ -1,11 +1,20 @@
 /*
 This file contains the methods used to communicate with the backend.
  */
-export async function fetchSentimentValue (query) {
-    await new Promise(resolve => setTimeout(resolve, 3000)); // 5-second delay
-    /* Simulate a backend value
-    This const has to be replaced with a call to the backend API for a real value.
-     */
-    const backendValue = Math.floor(Math.random() * 10) - 5; // Random number between -5 and 5
-    return backendValue;
+export async function fetchSentimentValue(query) {
+    try {
+        const response = await fetch(`http://127.0.0.1:8000/search/?search_word=${encodeURIComponent(query)}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        return data.sentiment_score;
+    } catch (error) {
+        console.error('Error fetching sentiment value:', error);
+        throw error;
+    }
 }
+
+
+
+
