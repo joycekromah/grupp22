@@ -7,12 +7,21 @@ import os
 # Load environment variables from the .env file
 load_dotenv()
 
-def main():
-    searchWord = input("Ange sökord: ")
+def main(searchWord):
+    """
+    Fetch articles for the given search word and return them as JSON objects.
+    """
     posts = get_articles(searchWord)
     if posts:
-        save_urls_as_json(posts)
+        articles = [
+            {"title": article.get("title", "No title available"), "url": article.get("url", "No URL available")}
+            for article in posts.get("articles", [])
+        ]
+        for article in articles:
+            print(article)
 
+        return articles
+    return []
 
 def get_articles(searchWord):
     # Retrieve the API key from the environment variables
@@ -31,18 +40,3 @@ def get_articles(searchWord):
     else:
         print(f"Error: {response.status_code}")
         return None
-
-
-def save_urls_as_json(posts):
-    articles = posts.get('articles', [])
-    urls = [{"title": article.get('title', 'No title available'), "url": article.get('url', 'No URL available')} for article in articles]
-
-    # Save URLs as JSON
-    with open('articles.json', 'w', encoding='utf-8') as json_file:
-        json.dump(urls, json_file, indent=2, ensure_ascii=False)
-
-    print("URLs have been saved to 'articles.json'.")
-
-
-if __name__ == '__main__':
-    main()

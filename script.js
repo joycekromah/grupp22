@@ -51,6 +51,7 @@ searchButton.addEventListener("click", function () {
     const query = searchInput.value.trim();
     searchInput.style.border = "1px solid #ccc";
     sliderContainer.style.display = "none";
+    popupScoreContainer.style.display = "none";
 
     if (query) {
         //Om sökrutan innehåller text så kallas fetch metoden som kommmunicerar med backenden
