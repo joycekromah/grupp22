@@ -7,8 +7,6 @@ load_dotenv()
 
 API_KEY = os.getenv("YOUTUBE_API_KEY")
 
-SEARCH_KEYWORD = "elon musk"
-
 MAX_COMMENTS_PER_VIDEO = 10
 
 MAX_VIDEOS = 5
@@ -61,30 +59,25 @@ def fetch_video_comments(video_id, api_key, max_comments=50):
         print(f"Error fetching comments for video {video_id}: {response.status_code} - {response.text}")
         return []
 
-def main():
-    videos = search_videos(SEARCH_KEYWORD, API_KEY, MAX_VIDEOS)
+def main(searchWord):
+
+    videos = search_videos(searchWord, API_KEY, MAX_VIDEOS)
     if not videos:
-        print("No videos found.")
-        return
+        return []
 
     result = []
 
     for video in videos:
         video_id = video["videoId"]
         video_title = video["title"]
-        print(f"Fetching comments for video: {video_title} (ID: {video_id})")
         comments = fetch_video_comments(video_id, API_KEY, MAX_COMMENTS_PER_VIDEO)
         result.append({
             "title": video_title,
             "videoId": video_id,
             "comments": comments,
         })
-        print(f"Fetched {len(comments)} comments for video: {video_title}")
 
-    with open("youtube_comments.json", "w", encoding="utf-8") as f:
-        json.dump(result, f, indent=2, ensure_ascii=False)
+    for item in result:
+        print(f"Title: {item['title']}, Video ID: {item['videoId']}")
 
-    print("\nResults saved to youtube_comments.json")
-
-if __name__ == "__main__":
-    main()
+    return result

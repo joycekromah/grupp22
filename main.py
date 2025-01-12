@@ -1,5 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from NewsAPI import main as findNews
+from YoutubeCommentsAPI import main as findComments
 import subprocess
 import json
 
@@ -14,42 +16,49 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-def run_sentiment_analysis():
-    """
-    Helper function to run sentiment.js and retrieve sentiment value.
-    """
+def fetch_searches(search_word):
+    news_data = findNews(search_word)
+    yt_comments_data = findComments(search_word)  # Returns JSON object from YTCommentsAPI
+    return {"news": news_data, "youtube_comments": yt_comments_data}
+
+
+def run_sentiment_analysis(data):
     try:
-        # Run the sentiment analysis using Node.js
-        sentiment_result = subprocess.check_output(["node", "sentiment.js"])
-        return json.loads(sentiment_result.decode("utf-8"))
+        # Pass data to sentiment.js via subprocess
+        process = subprocess.Popen(
+            ["node", "sentiment.js"],
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+        )
+        input_data = json.dumps(data)
+        sentiment_result, error = process.communicate(input=input_data)
+
+        if process.returncode != 0:
+            raise HTTPException(status_code=500, detail=f"Error running sentiment.js: {error}")
+
+        return json.loads(sentiment_result)
     except subprocess.CalledProcessError as e:
         raise HTTPException(status_code=500, detail=f"Error running sentiment.js: {e}")
-    except json.JSONDecodeError:
-        raise HTTPException(status_code=500, detail="Invalid JSON returned by sentiment.js.")
+    except json.JSONDecodeError as e:
+        raise HTTPException(status_code=500, detail=f"Invalid JSON returned by sentiment.js: {e}")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Unexpected error: {e}")
 
 @app.get("/search/")
 def search_word(search_word: str):
     """
     Endpoint to search for a word, process the data, and return sentiment analysis.
     """
-    # Step 1: Fetch news and YouTube data
-    """
-    Lägg in metoderna för yt, news osv här med searchword som input. 
-    """
-
-
-    # Step 2: Run sentiment analysis
-
     try:
-        # Perform sentiment analysis
-        #result = run_sentiment_analysis()
-        with open("average_sentiment_result.json", "r") as file:
-            sentiment_data = json.load(file)
-            sentiment_score = sentiment_data.get("averageSentiment")
+        data = fetch_searches(search_word)
+
+        sentiment_result = run_sentiment_analysis(data)
 
         return {
             "search_word": search_word,
-            "sentiment_score": sentiment_score,
+            "sentiment_score": sentiment_result.get("averageSentiment"),
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
