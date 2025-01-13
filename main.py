@@ -4,7 +4,6 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from NewsAPI import main as findNews
 from YoutubeCommentsAPI import main as findComments
-from starter import SpiderRunner
 from main_scrubb import Scrubber
 import subprocess
 import json
