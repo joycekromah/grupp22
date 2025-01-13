@@ -2,6 +2,11 @@ import json
 from runner import run_spiders_async
 from Tweeter import Tweeter
 from twisted.internet import reactor
+
+
+
+
+
 class Scrubber():
     def __init__(self):
         pass
@@ -43,8 +48,9 @@ class Scrubber():
             output_file = "results.json"
             self.save_results_to_json(results, output_file)
             print(f"Results saved to {output_file}")
-            return results
+            data = results
+            results = None
+            return data
         else:
             print("All spiders failed or no results were scraped.")
-
 

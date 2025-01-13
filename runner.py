@@ -89,6 +89,7 @@ def run_spiders_async(spiders_config):
     def on_success(results):
         if reactor.running:
             reactor.stop()
+
         return results
 
     def on_failure(failure):
@@ -97,6 +98,7 @@ def run_spiders_async(spiders_config):
         return failure
 
     d.addCallbacks(on_success, on_failure)
+
 
     # If the reactor isn't running, start it
     if not reactor.running:

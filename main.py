@@ -1,7 +1,10 @@
+import traceback
+
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from NewsAPI import main as findNews
 from YoutubeCommentsAPI import main as findComments
+from starter import SpiderRunner
 from main_scrubb import Scrubber
 import subprocess
 import json
@@ -17,15 +20,20 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 def fetch_searches(search_word):
     news_data = findNews(search_word)
     yt_comments_data = findComments(search_word)  # Returns JSON object from YTCommentsAPI
-    scrubber = Scrubber()
-    twitter_data = scrubber.main(search_word)
+    #stonk = SpiderRunner.scrubba(search_word)
+    #print(f"scraped tweets:, {stonk}")
+    #scrubber = Scrubber()
+    #twitter_data = scrubber.main(search_word)
 
-    del scrubber
-    return {"news": news_data, "youtube_comments": yt_comments_data, "Twitter": twitter_data}
-    #return {"news": news_data, "youtube_comments": yt_comments_data}
+
+    #del scrubber
+    #return {"news": news_data, "youtube_comments": yt_comments_data, "Twitter": stonk}
+    return {"news": news_data, "youtube_comments": yt_comments_data}
+
 
 
 
@@ -43,15 +51,19 @@ def run_sentiment_analysis(data):
         sentiment_result, error = process.communicate(input=input_data)
 
         if process.returncode != 0:
-            raise HTTPException(status_code=500, detail=f"Error running sentiment.js: {error}")
+            tb_str = traceback.format_exc()
+            raise HTTPException(status_code=500, detail=tb_str)
 
         return json.loads(sentiment_result)
     except subprocess.CalledProcessError as e:
-        raise HTTPException(status_code=500, detail=f"Error running sentiment.js: {e}")
+        tb_str = traceback.format_exc()
+        raise HTTPException(status_code=500, detail=tb_str)
     except json.JSONDecodeError as e:
-        raise HTTPException(status_code=500, detail=f"Invalid JSON returned by sentiment.js: {e}")
+        tb_str = traceback.format_exc()
+        raise HTTPException(status_code=500, detail=tb_str)
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Unexpected error: {e}")
+        tb_str = traceback.format_exc()
+        raise HTTPException(status_code=500, detail=tb_str)
 
 @app.get("/search/")
 def search_word(search_word: str):
@@ -63,11 +75,13 @@ def search_word(search_word: str):
 
         sentiment_result = run_sentiment_analysis(data)
 
-        del data
 
         return {
             "search_word": search_word,
             "sentiment_score": sentiment_result.get("averageSentiment"),
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        # Capture the full traceback as a string
+        tb_str = traceback.format_exc()
+        # Raise an HTTPException with the traceback in the detail
+        raise HTTPException(status_code=500, detail=tb_str)

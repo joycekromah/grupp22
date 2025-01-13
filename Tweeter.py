@@ -3,26 +3,25 @@ from urllib.parse import urlencode
 import os
 
 class Tweeter(scrapy.Spider):
-    name = "tweeter"
+
     api_key = os.getenv('ZYTE_API_KEY')
     custom_settings = {
-        #"ZYTE_API_KEY": api_key,  # or set in settings.py
+        "ZYTE_API_KEY": api_key,  # or set in settings.py
         "ROBOTSTXT_OBEY": False,
-        #"DOWNLOADER_MIDDLEWARES": {
-         #   "scrapy_zyte_api.ScrapyZyteAPIDownloaderMiddleware": 1000,
-        #},
-        # Default Zyte API args for HTML requests (no JS needed)
+        "DOWNLOADER_MIDDLEWARES": {
+            "scrapy_zyte_api.ScrapyZyteAPIDownloaderMiddleware": 1000,
+        },
         "FEED_EXPORT_ENCODING": "utf-8",
-        #"DOWNLOADER_MIDDLEWARES" : {
-        #"scrapy_zyte_api.ScrapyZyteAPIDownloaderMiddleware": 1000,
-        #},
+
     }
 
     def __init__(self, keyword=None, since=None, until=None, url=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if not keyword:
             raise ValueError("You must provide a keyword to scrape tweets. Use -a keyword='your_keyword'")
+
         self.keyword = keyword
+        self.name = self.keyword
         self.since = since
         self.until = until
         self.url = url
