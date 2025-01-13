@@ -9,7 +9,7 @@ const openai = new OpenAI({
 async function analyzeSentiment(content) {
     try {
         const response = await openai.chat.completions.create({
-            model: "gpt-3.5-turbo",
+            model: "gpt-4o",
             messages: [
                 { role: "system", content: "You are a sentiment analysis assistant." },
                 {
