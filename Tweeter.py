@@ -26,7 +26,7 @@ class Tweeter(scrapy.Spider):
         self.until = until
         self.url = url
         self.collected_count = 0
-        self.max_tweets = 10
+        self.max_tweets = 100
         self.page = 1
         self.spider_results = []
 
@@ -76,12 +76,8 @@ class Tweeter(scrapy.Spider):
                 item = {"text": tweet_text}
                 self.spider_results.append(item)
                 yield item
-                #print(f"Added item: {item} | Total items: {len(self.spider_results)}")  # Debug log
                 if self.collected_count >= self.max_tweets:
                     return  # Stop if we've reached our target number of tweets
-
-        # If we need more tweets and pagination is required, handle pagination or load more logic here.
-        # (This depends on how the Nitter instance or page is structured, possibly incrementing 'page' param.)
 
 
         # Check if we need more tweets
@@ -97,9 +93,6 @@ class Tweeter(scrapy.Spider):
                 )
 
     def _build_next_page_url(self, current_url):
-        # Construct the next page URL by incrementing page param.
-        # If current URL already had a page param, replace it. Otherwise, add one.
-        # A simple approach is to parse query params and increment page.
         from urllib.parse import urlparse, parse_qs, urlunparse, urlencode
 
         parsed = urlparse(current_url)
