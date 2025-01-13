@@ -29,6 +29,7 @@
     "Node.js.sentiment.js.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -47,11 +48,41 @@
       <recent name="$PROJECT_DIR$/.idea" />
     </key>
   </component>
+  <component name="RunManager">
+    <configuration name="runner" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="grupp22" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/TwitterScraper" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/TwitterScraper/runner.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.runner" />
+        <item itemvalue="Python.runner" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.19416.15" />
-        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.19416.15" />
+        <option value="bundled-python-sdk-c69650fc56ca-b11f5e8da5ad-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-233.15619.17" />
       </set>
     </attachedChunks>
   </component>
@@ -66,6 +97,9 @@
       <workItem from="1733831803539" duration="217000" />
       <workItem from="1736505294462" duration="49000" />
       <workItem from="1736514139517" duration="2903000" />
+      <workItem from="1736631316199" duration="440000" />
+      <workItem from="1736631763251" duration="156000" />
+      <workItem from="1736631973086" duration="9456000" />
     </task>
     <task id="LOCAL−00001" summary=".">
       <option name="closed" value="true" />
@@ -84,5 +118,9 @@
     <MESSAGE value="first draft" />
     <MESSAGE value="." />
     <option name="LAST_COMMIT_MESSAGE" value="." />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/grupp22$runner.coverage" NAME="runner Coverage Results" MODIFIED="1736764482672" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/TwitterScraper" />
+    <SUITE FILE_PATH="coverage/grupp22$main.coverage" NAME="main Coverage Results" MODIFIED="1736766680090" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/TwitterScraper" />
   </component>
 </project>

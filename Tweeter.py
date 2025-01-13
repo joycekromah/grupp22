@@ -1,11 +1,12 @@
 import scrapy
 from urllib.parse import urlencode
+import os
 
 class Tweeter(scrapy.Spider):
     name = "tweeter"
-    apikey = "fem"
+    api_key = os.getenv('ZYTE_API_KEY')
     custom_settings = {
-        "ZYTE_API_KEY": apikey,  # or set in settings.py
+        "ZYTE_API_KEY": api_key,  # or set in settings.py
         "ROBOTSTXT_OBEY": False,
         #"DOWNLOADER_MIDDLEWARES": {
          #   "scrapy_zyte_api.ScrapyZyteAPIDownloaderMiddleware": 1000,
@@ -26,7 +27,7 @@ class Tweeter(scrapy.Spider):
         self.until = until
         self.url = url
         self.collected_count = 0
-        self.max_tweets = 50
+        self.max_tweets = 200
         self.page = 1
         self.spider_results = []
 
