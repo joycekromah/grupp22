@@ -10,8 +10,6 @@ import subprocess
 import json
 from twisted.internet import reactor
 
-# Your application setup code here
-
 
 
 app = FastAPI()
