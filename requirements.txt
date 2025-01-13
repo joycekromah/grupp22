@@ -5,5 +5,4 @@ Twisted
 dotenv
 uvicorn
 requests
-puppeteer
 openai

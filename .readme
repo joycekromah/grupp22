@@ -3,9 +3,8 @@
 Steg 1. Kopiera detta och klistra in i terminalen: 
 pip install python-dotenv
 pip install requests
-npm install puppeteer
 npm install openai
-npx puppeteer browsers install chrome
+pip install fastapi
 
 
 Steg 2: 
