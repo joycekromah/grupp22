@@ -29,15 +29,12 @@ app.add_middleware(
 def fetch_searches(search_word):
     news_data = findNews(search_word)
     yt_comments_data = findComments(search_word)  # Returns JSON object from YTCommentsAPI
-    #stonk = SpiderRunner.scrubba(search_word)
-    #print(f"scraped tweets:, {stonk}")
     scrubber = Scrubber()
     twitter_data = scrubber.main(search_word)
 
 
-    #del scrubber
-    #return {"news": news_data, "youtube_comments": yt_comments_data, "Twitter": stonk}
-    return {"news": news_data, "youtube_comments": yt_comments_data}
+    return {"news": news_data, "youtube_comments": yt_comments_data, "Twitter": twitter_data}
+    #return {"news": news_data, "youtube_comments": yt_comments_data}
 
 
 
