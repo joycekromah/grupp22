@@ -11,6 +11,7 @@ class Scrubber():
     def __init__(self):
         pass
 
+
     def save_results_to_json(self, results, output_file):
 
         with open(output_file, "w", encoding="utf-8") as f:
@@ -48,9 +49,7 @@ class Scrubber():
             output_file = "results.json"
             self.save_results_to_json(results, output_file)
             print(f"Results saved to {output_file}")
-            data = results
-            results = None
-            return data
+            return results
         else:
             print("All spiders failed or no results were scraped.")
 

@@ -8,6 +8,11 @@ from starter import SpiderRunner
 from main_scrubb import Scrubber
 import subprocess
 import json
+from twisted.internet import reactor
+
+# Your application setup code here
+
+
 
 app = FastAPI()
 
@@ -26,8 +31,8 @@ def fetch_searches(search_word):
     yt_comments_data = findComments(search_word)  # Returns JSON object from YTCommentsAPI
     #stonk = SpiderRunner.scrubba(search_word)
     #print(f"scraped tweets:, {stonk}")
-    #scrubber = Scrubber()
-    #twitter_data = scrubber.main(search_word)
+    scrubber = Scrubber()
+    twitter_data = scrubber.main(search_word)
 
 
     #del scrubber
@@ -52,18 +57,34 @@ def run_sentiment_analysis(data):
 
         if process.returncode != 0:
             tb_str = traceback.format_exc()
-            raise HTTPException(status_code=500, detail=tb_str)
+            raise HTTPException(status_code=500, detail={
+                "error": str(e),
+                "traceback": tb_str,
+                "data": data if 'data' in locals() else None,
+            })
 
         return json.loads(sentiment_result)
     except subprocess.CalledProcessError as e:
         tb_str = traceback.format_exc()
-        raise HTTPException(status_code=500, detail=tb_str)
+        raise HTTPException(status_code=500, detail={
+            "error": str(e),
+            "traceback": tb_str,
+            "data": data if 'data' in locals() else None,
+        })
     except json.JSONDecodeError as e:
         tb_str = traceback.format_exc()
-        raise HTTPException(status_code=500, detail=tb_str)
+        raise HTTPException(status_code=500, detail={
+            "error": str(e),
+            "traceback": tb_str,
+            "data": data if 'data' in locals() else None,
+        })
     except Exception as e:
         tb_str = traceback.format_exc()
-        raise HTTPException(status_code=500, detail=tb_str)
+        raise HTTPException(status_code=500, detail={
+            "error": str(e),
+            "traceback": tb_str,
+            "data": data if 'data' in locals() else None,
+        })
 
 @app.get("/search/")
 def search_word(search_word: str):
@@ -84,4 +105,8 @@ def search_word(search_word: str):
         # Capture the full traceback as a string
         tb_str = traceback.format_exc()
         # Raise an HTTPException with the traceback in the detail
-        raise HTTPException(status_code=500, detail=tb_str)
+        raise HTTPException(status_code=500, detail={
+            "error": str(e),
+            "traceback": tb_str,
+            "data": data if 'data' in locals() else None,
+        })

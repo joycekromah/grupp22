@@ -6,6 +6,7 @@ from scrapy.settings import Settings
 
 @defer.inlineCallbacks
 def crawl_all(spiders_config):
+
     """
     Run spiders in parallel but stop and return results as soon as the first successful spider yields items.
     """
@@ -84,9 +85,11 @@ def run_spiders_async(spiders_config):
       3) Stop the reactor when done
       4) Return the results.
     """
+    print("treee")
     d = crawl_all(spiders_config)
 
     def on_success(results):
+
         if reactor.running:
             reactor.stop()
 
