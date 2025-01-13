@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from NewsAPI import main as findNews
 from YoutubeCommentsAPI import main as findComments
+from main_scrubb import Scrubber
 import subprocess
 import json
 
@@ -19,7 +20,13 @@ app.add_middleware(
 def fetch_searches(search_word):
     news_data = findNews(search_word)
     yt_comments_data = findComments(search_word)  # Returns JSON object from YTCommentsAPI
-    return {"news": news_data, "youtube_comments": yt_comments_data}
+    scrubber = Scrubber()
+    twitter_data = scrubber.main(search_word)
+
+    del scrubber
+    return {"news": news_data, "youtube_comments": yt_comments_data, "Twitter": twitter_data}
+    #return {"news": news_data, "youtube_comments": yt_comments_data}
+
 
 
 def run_sentiment_analysis(data):
@@ -55,6 +62,8 @@ def search_word(search_word: str):
         data = fetch_searches(search_word)
 
         sentiment_result = run_sentiment_analysis(data)
+
+        del data
 
         return {
             "search_word": search_word,

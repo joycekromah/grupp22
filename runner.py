@@ -34,7 +34,7 @@ def crawl_all(spiders_config):
 
         def item_scraped(item, response, spider):
 
-                spider_results.append(item)  # Collect the item
+            spider_results.append(item)  # Collect the item
 
 
         def spider_closed(spider, reason):
@@ -76,32 +76,30 @@ def crawl_all(spiders_config):
     defer.returnValue([])  # Default to empty if all fail
 
 
-def run_spiders_async(spiders_config, callback=None, errback=None):
+def run_spiders_async(spiders_config):
     """
     A convenience function to:
       1) Call `crawl_all` with the given spiders_config
       2) Start the reactor if not running
       3) Stop the reactor when done
-      4) Fire callback or errback accordingly.
+      4) Return the results.
     """
     d = crawl_all(spiders_config)
 
     def on_success(results):
-        if callback:
-            callback(results)
         if reactor.running:
             reactor.stop()
-
+        return results
 
     def on_failure(failure):
-        if errback:
-            errback(failure)
         if reactor.running:
             reactor.stop()
-
+        return failure
 
     d.addCallbacks(on_success, on_failure)
 
     # If the reactor isn't running, start it
     if not reactor.running:
         reactor.run()
+
+    return d.result

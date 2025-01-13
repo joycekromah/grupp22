@@ -1,0 +1,9 @@
+Scrapy
+scrapy-zyte-api
+scrapy-zyte-smartproxy
+Twisted
+dotenv
+uvicorn
+requests
+puppeteer
+openai
