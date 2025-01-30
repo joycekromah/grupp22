@@ -2,7 +2,7 @@ Scrapy
 scrapy-zyte-api
 scrapy-zyte-smartproxy
 Twisted
-dotenv
+python-dotenv
 uvicorn
 requests
 openai
