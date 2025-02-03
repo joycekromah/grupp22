@@ -1,14 +1,35 @@
-***gör denna snyggare sen***
-
-Steg 1. Kopiera detta och klistra in i terminalen: 
-pip install python-dotenv
-pip install requests
-npm install openai
-pip install fastapi
+Installationsinstruktioner
+STEG 1
+------------------------------------------
+Installera NodeJs via hemsidan https://nodejs.org/en/download
 
 
-Steg 2: 
-skapa en .env fil och lägg in nycklar blabla
 
-Också:
-installera NodeJS via deras hemsida
+Körinstruktioner
+
+STEG 1
+------------------------------------------
+Kopiera eller skriv in detta i terminalen:
+pip install -r requirements.txt
+
+
+STEG 2
+------------------------------------------
+Kopiera eller skriv in detta i terminalen:
+uvicorn main:app --host 127.0.0.1 --port 8000 --reload
+
+
+STEG 3
+------------------------------------------
+Gå in på FullScope via:
+http://127.0.0.1:8000
+
+
+STEG 4
+------------------------------------------
+Skriv in ett sökord och välj en eller alla datakällor som du önskar analysera sentiment från. Tryck på “Search”. Detta kan ta några minuter.
+
+
+STEG 5
+------------------------------------------
+Betygsresultatet ska nu synas på slidern.

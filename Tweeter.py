@@ -34,11 +34,11 @@ class Tweeter(scrapy.Spider):
 
         # Choose a Nitter instance. nitter.net is the main one, but may be rate limited.
         # Consider using another Nitter instance if needed.
-        #self.base_url = "http://153.127.64.199:8081/search"
+        self.base_url = "http://153.127.64.199:8081/search"
         #self.base_url = "http://46.250.231.226:8889/search"
         #self.base_url = "https://xcancel.com/search"
         #self.base_url = "https://nitter.privacydev.net/search"
-        self.base_url = "https://nitter.aishiteiru.moe/search"
+        #self.base_url = "https://nitter.aishiteiru.moe/search"
         #self.base_url = "https://nitter.pek.li/search"
         #self.base_url = url
 
@@ -73,7 +73,7 @@ class Tweeter(scrapy.Spider):
 
             if tweet_text:
                 self.collected_count += 1
-                item = {"text": tweet_text}
+                item = {"title": tweet_text}
                 self.spider_results.append(item)
                 yield item
                 if self.collected_count >= self.max_tweets:

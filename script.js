@@ -1,4 +1,4 @@
-import { fetchSentimentValue } from "./handler.js";
+import {fetchAllData, fetchNewsData, fetchSentimentValue, fetchYTData, fetchTwitterData} from "./handler.js";
 
 const searchInput = document.getElementById("searchBar");
 const searchButton = document.getElementById("searchButton");
@@ -7,6 +7,12 @@ const popupScoreContainer = document.querySelector(".popup-score-container");
 let isLoaded = false;
 
 //Functions
+
+// Function to get the selected radio button value
+function getSelectedRadioID() {
+    const selectedRadio = document.querySelector('input[name="flexRadioDefault"]:checked');
+    return selectedRadio ? selectedRadio.id : null;
+}
 
 function updateSlider(value) {
     const slider = document.getElementById('sentimentSlider');
@@ -49,6 +55,8 @@ searchInput.addEventListener("keypress", function (event) {
 
 searchButton.addEventListener("click", function () {
     const query = searchInput.value.trim();
+    const selectedSource = getSelectedRadioID(); // Get selected radio button value
+
     searchInput.style.border = "1px solid #ccc";
     sliderContainer.style.display = "none";
     popupScoreContainer.style.display = "none";
@@ -57,12 +65,44 @@ searchButton.addEventListener("click", function () {
         //Om sökrutan innehåller text så kallas fetch metoden som kommmunicerar med backenden
         isLoaded = true;
         updateLoader();
+        console.log(`Searching for: ${query} in ${selectedSource}`); // Debugging
 
-        fetchSentimentValue(query).then(response => {
-            updateSlider(response);
-            isLoaded = false;
-            updateLoader();
-        });
+        switch(selectedSource)
+        {
+            case "NewsRadio":
+                fetchNewsData(query).then(async response => {
+                    const sentimentValue = await fetchSentimentValue(response);
+                    updateSlider(sentimentValue);
+                    isLoaded = false;
+                    updateLoader();
+                });
+                break;
+            case "AllRadio":
+                fetchAllData(query).then(async response => {
+                    const sentimentValue = await fetchSentimentValue(response);
+                    updateSlider(sentimentValue);
+                    isLoaded = false;
+                    updateLoader();
+                });
+                break;
+            case "TwitterRadio":
+                fetchTwitterData(query).then(async response => {
+                    const sentimentValue = await fetchSentimentValue(response);
+                    updateSlider(sentimentValue);
+                    isLoaded = false;
+                    updateLoader();
+                });
+                break;
+            case "YouTubeRadio":
+                fetchYTData(query).then(async response => {
+                    const sentimentValue = await fetchSentimentValue(response);
+                    updateSlider(sentimentValue);
+                    isLoaded = false;
+                    updateLoader();
+                });
+                break;
+        }
+
     } else {
         //Om sökrutan är tom så markeras den med en röd border
         isLoaded = false;

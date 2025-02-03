@@ -37,10 +37,16 @@ async function processContent(data) {
 
     for (const source in data) {
         const items = data[source];
+
         for (const item of items) {
+            console.error(`Analyzing sentiment for ${item.title}`);
             const titleSentiment = await analyzeSentiment(item.title);
             if (titleSentiment !== null) allSentiments.push(titleSentiment);
 
+            if(!Array.isArray(item)) {
+                console.error(`Invalid item type: ${typeof item}. Skipping this entry.`);
+                continue;
+            }
 
             if (item.comments) {
                 for (const comment of item.comments) {
