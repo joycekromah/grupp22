@@ -3,7 +3,7 @@ This file contains the methods used to communicate with the backend.
  */
 export async function fetchSentimentValue(query) {
     try {
-        const response = await fetch(`http://127.0.0.1:8000/search/?search_word=${encodeURIComponent(query)}`);
+        const response = await fetch(`http://127.0.0.1:8000/search/?fetchData=${encodeURIComponent(query)}`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }

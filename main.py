@@ -80,7 +80,7 @@ def run_sentiment_analysis(data):
             "data": data if 'data' in locals() else None,
         })
 
-@app.get("/search/")
+@app.get("/fetchData/")
 def search_word(search_word: str):
     """
     Endpoint to search for a word, process the data, and return sentiment analysis.
@@ -89,7 +89,6 @@ def search_word(search_word: str):
         data = fetch_searches(search_word)
 
         sentiment_result = run_sentiment_analysis(data)
-
 
         return {
             "search_word": search_word,
@@ -104,3 +103,6 @@ def search_word(search_word: str):
             "traceback": tb_str,
             "data": data if 'data' in locals() else None,
         })
+
+@app.get("runAnalysis")
+def
