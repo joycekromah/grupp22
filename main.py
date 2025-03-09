@@ -4,11 +4,9 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from NewsAPI import main as findNews
 from YoutubeCommentsAPI import main as findComments
-from main_scrubb import Scrubber
 from fastapi import Request
 import subprocess
 import json
-from twisted.internet import reactor
 
 
 
@@ -17,7 +15,7 @@ app = FastAPI()
 # Allow CORS for frontend communication
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:63342"],  # Replace "*" with your frontend's URL in production
+    allow_origins=["http://localhost:5500"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -26,13 +24,10 @@ app.add_middleware(
 
 def fetch_searches(search_word):
     news_data = findNews(search_word)
-    yt_comments_data = findComments(search_word)  # Returns JSON object from YTCommentsAPI
-    scrubber = Scrubber()
-    twitter_data = scrubber.main(search_word)
+    yt_comments_data = findComments(search_word)
 
 
-    return {"news": news_data, "youtube_comments": yt_comments_data, "Twitter": twitter_data}
-    #return {"news": news_data, "youtube_comments": yt_comments_data}
+    return {"news": news_data, "youtube_comments": yt_comments_data}
 
 
 
