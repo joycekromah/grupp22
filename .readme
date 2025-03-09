@@ -27,7 +27,7 @@ uvicorn main:app --host 127.0.0.1 --port 8000 --reload
 STEG 5
 ------------------------------------------
 Gå in på FullScope via:
-Kör index.html
+http://127.0.0.1:8000
 
 
 STEG 6
