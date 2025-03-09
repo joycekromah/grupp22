@@ -16,21 +16,6 @@ export async function fetchNewsData(query) {
     }
 }
 
-export async function fetchTwitterData(query) {
-    try {
-        const response = await fetch(`http://127.0.0.1:8000/fetchTwitterData/?search_word=${encodeURIComponent(query)}`);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        console.log("data.data i handler", data.data);
-        return data.data;
-    } catch (error) {
-        console.error('Error fetching sentiment value:', error);
-        throw error;
-    }
-}
-
 export async function fetchYTData(query) {
     try {
         const response = await fetch(`http://127.0.0.1:8000/fetchYoutubeCommentsData/?search_word=${encodeURIComponent(query)}`);

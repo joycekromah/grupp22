@@ -1,4 +1,4 @@
-import {fetchAllData, fetchNewsData, fetchSentimentValue, fetchYTData, fetchTwitterData} from "./handler.js";
+import {fetchAllData, fetchNewsData, fetchSentimentValue, fetchYTData} from "./handler.js";
 
 const searchInput = document.getElementById("searchBar");
 const searchButton = document.getElementById("searchButton");
