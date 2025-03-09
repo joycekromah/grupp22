@@ -1,35 +1,37 @@
-Installationsinstruktioner
-STEG 1
-------------------------------------------
-Installera NodeJs via hemsidan https://nodejs.org/en/download
-
-
 
 Körinstruktioner
+
 
 STEG 1
 ------------------------------------------
 Kopiera eller skriv in detta i terminalen:
-pip install -r requirements.txt
-
+source venv/bin/activate
 
 STEG 2
+------------------------------------------
+Kopiera eller skriv in detta i terminalen:
+pip3 install -r requirements.txt
+
+STEG 3
+------------------------------------------
+Kopiera eller skriv in detta i terminalen:
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash && \. "$HOME/.nvm/nvm.sh" && nvm install 22 && node -v && nvm current && npm -v
+
+
+STEG 4
 ------------------------------------------
 Kopiera eller skriv in detta i terminalen:
 uvicorn main:app --host 127.0.0.1 --port 8000 --reload
 
 
-STEG 3
+STEG 5
 ------------------------------------------
 Gå in på FullScope via:
-http://127.0.0.1:8000
+Kör index.html
 
 
-STEG 4
+STEG 6
 ------------------------------------------
 Skriv in ett sökord och välj en eller alla datakällor som du önskar analysera sentiment från. Tryck på “Search”. Detta kan ta några minuter.
 
 
-STEG 5
-------------------------------------------
-Betygsresultatet ska nu synas på slidern.
