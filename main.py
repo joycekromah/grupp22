@@ -14,10 +14,9 @@ from twisted.internet import reactor
 
 app = FastAPI()
 
-# Allow CORS for frontend communication
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:63342"],  # Replace "*" with your frontend's URL in production
+    allow_origins=["http://localhost:63342"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -26,20 +25,18 @@ app.add_middleware(
 
 def fetch_searches(search_word):
     news_data = findNews(search_word)
-    yt_comments_data = findComments(search_word)  # Returns JSON object from YTCommentsAPI
+    yt_comments_data = findComments(search_word)
     scrubber = Scrubber()
     twitter_data = scrubber.main(search_word)
 
 
     return {"news": news_data, "youtube_comments": yt_comments_data, "Twitter": twitter_data}
-    #return {"news": news_data, "youtube_comments": yt_comments_data}
 
 
 
 
 def run_sentiment_analysis(data):
     try:
-        # Pass data to sentiment.js via subprocess
         process = subprocess.Popen(
             ["node", "sentiment.js"],
             stdin=subprocess.PIPE,
@@ -95,9 +92,7 @@ def fetch_twitter_data(search_word: str):
             "data": data
         }
     except Exception as e:
-        # Capture the full traceback as a string
         tb_str = traceback.format_exc()
-        # Raise an HTTPException with the traceback in the detail
         raise HTTPException(status_code=500, detail={
             "error": str(e),
             "traceback": tb_str,
@@ -113,9 +108,7 @@ def fetch_news_data(search_word: str):
             "data": data
         }
     except Exception as e:
-        # Capture the full traceback as a string
         tb_str = traceback.format_exc()
-        # Raise an HTTPException with the traceback in the detail
         raise HTTPException(status_code=500, detail={
             "error": str(e),
             "traceback": tb_str,
@@ -131,9 +124,7 @@ def fetch_youtube_comments_data(search_word: str):
             "data": data
         }
     except Exception as e:
-        # Capture the full traceback as a string
         tb_str = traceback.format_exc()
-        # Raise an HTTPException with the traceback in the detail
         raise HTTPException(status_code=500, detail={
             "error": str(e),
             "traceback": tb_str,
@@ -152,9 +143,7 @@ def fetch_all_data(search_word: str):
             "data": data,
         }
     except Exception as e:
-        # Capture the full traceback as a string
         tb_str = traceback.format_exc()
-        # Raise an HTTPException with the traceback in the detail
         raise HTTPException(status_code=500, detail={
             "error": str(e),
             "traceback": tb_str,
