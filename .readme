@@ -1,4 +1,3 @@
-
 Körinstruktioner för IntelliJ
 
 
@@ -7,44 +6,53 @@ STEG 1
 Skapa en .env fil i rotmappen och lägg in de bifogade API-nycklarna.
 
 
-STEG 
+STEG 2
 ------------------------------------------
 Kopiera eller skriv in detta i terminalen:
+python -m venv venv
+Mac o linux:
+source venv/bin/activate
+
+Windows:
+venv\Scripts\activate
+
+
+eller:
+ 
 python3 -m venv venv
+Mac o linux:
+source venv/bin/activate
+
+Windows:
+venv\Scripts\activate
 
 
 STEG 3
 ------------------------------------------
 Kopiera eller skriv in detta i terminalen:
-source venv/bin/activate
+pip3 install -r requirements.txt
 
 
 STEG 4
 ------------------------------------------
-Kopiera eller skriv in detta i terminalen:
-pip3 install -r requirements.txt
+Kopiera eller skriv in detta i terminalen om du har macOS eller Linux:
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash && . "$HOME/.nvm/nvm.sh" && nvm install 22 && node -v && nvm current && npm -v
 
+Kör man windows ska man istället skriva:
+winget install Schniz.fnm && fnm install 22
 
 STEG 5
-------------------------------------------
-Kopiera eller skriv in detta i terminalen:
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash && \. "$HOME/.nvm/nvm.sh" && nvm install 22 && node -v && nvm current && npm -v
-
-
-STEG 6
 ------------------------------------------
 Kopiera eller skriv in detta i terminalen:
 uvicorn main:app --host 127.0.0.1 --port 8000 --reload
 
 
-STEG 7
+STEG 6
 ------------------------------------------
 Gå in på filen "index.html" i IntelliJ. Klicka på "Run"-knappen.
 
 
-STEG 8
+STEG 7
 ------------------------------------------
 Skriv in ett sökord och välj en eller alla datakällor som du önskar analysera sentiment från. 
 Tryck på “Search”. Detta kan ta några minuter.
-
-
