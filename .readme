@@ -6,37 +6,42 @@ STEG 1
 ------------------------------------------
 Skapa en .env fil i rotmappen och lägg in de bifogade API-nycklarna.
 
-
-STEG 2
+STEG 
 ------------------------------------------
 Kopiera eller skriv in detta i terminalen:
-source venv/bin/activate
+python3 -m venv venv
 
 
 STEG 3
 ------------------------------------------
 Kopiera eller skriv in detta i terminalen:
-pip3 install -r requirements.txt
+source venv/bin/activate
 
 
 STEG 4
 ------------------------------------------
 Kopiera eller skriv in detta i terminalen:
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash && \. "$HOME/.nvm/nvm.sh" && nvm install 22 && node -v && nvm current && npm -v
+pip3 install -r requirements.txt
 
 
 STEG 5
 ------------------------------------------
 Kopiera eller skriv in detta i terminalen:
-uvicorn main:app --host 127.0.0.1 --port 8000 --reload
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash && \. "$HOME/.nvm/nvm.sh" && nvm install 22 && node -v && nvm current && npm -v
 
 
 STEG 6
 ------------------------------------------
-Gå in på filen "index.html" i IntelliJ. Klicka på "Run"-knappen.
+Kopiera eller skriv in detta i terminalen:
+uvicorn main:app --host 127.0.0.1 --port 8000 --reload
 
 
 STEG 7
+------------------------------------------
+Gå in på filen "index.html" i IntelliJ. Klicka på "Run"-knappen.
+
+
+STEG 8
 ------------------------------------------
 Skriv in ett sökord och välj en eller alla datakällor som du önskar analysera sentiment från. 
 Tryck på “Search”. Detta kan ta några minuter.
