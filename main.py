@@ -134,9 +134,7 @@ def fetch_youtube_comments_data(search_word: str):
 
 @app.get("/AllData/")
 def fetch_all_data(search_word: str):
-    """
-    Endpoint to search for a word, process the data, and return sentiment analysis.
-    """
+
     try:
         data = fetch_searches(search_word)
         return {
