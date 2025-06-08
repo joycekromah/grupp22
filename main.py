@@ -81,7 +81,7 @@ def run_sentiment_analysis(data):
             "data": data if 'data' in locals() else None,
         })
 
-@app.get("/fetchTwitterData/")
+@app.get("/TwitterData/")
 def fetch_twitter_data(search_word: str):
     try:
         scrubber = Scrubber()
@@ -99,7 +99,7 @@ def fetch_twitter_data(search_word: str):
             "data": twitter_data if 'data' in locals() else None,
         })
 
-@app.get("/fetchNewsData/")
+@app.get("/NewsData/")
 def fetch_news_data(search_word: str):
     try:
         news_data = findNews(search_word)
@@ -115,7 +115,7 @@ def fetch_news_data(search_word: str):
             "data": news_data if 'data' in locals() else None,
         })
 
-@app.get("/fetchYoutubeCommentsData/")
+@app.get("/YoutubeCommentsData/")
 def fetch_youtube_comments_data(search_word: str):
     try:
         yt_data = findComments(search_word)
@@ -132,7 +132,7 @@ def fetch_youtube_comments_data(search_word: str):
         })
 
 
-@app.get("/fetchAllData/")
+@app.get("/AllData/")
 def fetch_all_data(search_word: str):
     """
     Endpoint to search for a word, process the data, and return sentiment analysis.
@@ -150,7 +150,7 @@ def fetch_all_data(search_word: str):
             "data": data if 'data' in locals() else None,
         })
 
-@app.post("/runAnalysis/")
+@app.post("/Analysis/")
 async def run_analysis(req: Request):
     try:
         req = await req.json()
